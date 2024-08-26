@@ -38,7 +38,7 @@ export const Login = () => {
         );
 
         if (response.data.token) {
-          login(response.data.token); // Save the token and log in
+          login(response.data.token);
           navigate("/dashboard");
         } else {
           setFieldError(
