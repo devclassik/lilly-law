@@ -9,6 +9,8 @@ import { Dashboard } from "./pages/dashboard/dashboard";
 import { SendFund } from "./pages/sendFun/sendFund";
 import { Sidebar } from "./components/SideBar";
 import OtpVerification from "./pages/otp/otp";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // Import toast styles
 
 // Layout component for authenticated routes
 const Layout = ({ children }) => {
@@ -26,36 +28,40 @@ const Layout = ({ children }) => {
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/otp" element={<OtpVerification />} />
-          <Route
-            path="/dashboard/*"
-            element={
-              <ProtectedRoute>
-                <Layout>
-                  <Dashboard />
-                </Layout>
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/send-fund"
-            element={
-              <ProtectedRoute>
-                <Layout>
-                  <SendFund />
-                </Layout>
-              </ProtectedRoute>
-            }
-          />
-        </Routes>
-      </Router>
-    </AuthProvider>
+    <>
+      <ToastContainer />
+
+      <AuthProvider>
+        <Router>
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/otp" element={<OtpVerification />} />
+            <Route
+              path="/dashboard/*"
+              element={
+                <ProtectedRoute>
+                  <Layout>
+                    <Dashboard />
+                  </Layout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/send-fund"
+              element={
+                <ProtectedRoute>
+                  <Layout>
+                    <SendFund />
+                  </Layout>
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
+        </Router>
+      </AuthProvider>
+    </>
   );
 }
 

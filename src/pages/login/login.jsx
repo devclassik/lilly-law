@@ -36,10 +36,8 @@ export const Login = () => {
 
         if (response.data.access_data) {
           toast.success("Login successful");
-          console.log('he',response.data);
-          
 
-          const {access, refresh, } = response.data.access_data;
+          const { access, refresh } = response.data.access_data;
 
           setTimeout(() => {
             login(access, refresh);
