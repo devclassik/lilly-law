@@ -1,15 +1,17 @@
-// src/components/Login.js
 import React from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import {Spinner} from "../../components/Spinner";
+import { Spinner } from "../../components/Spinner";
 
 export const Login = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
+
+  // Get the API base URL from environment variables
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
   const formik = useFormik({
     initialValues: {
@@ -24,10 +26,11 @@ export const Login = () => {
         .min(6, "Password must be at least 6 characters")
         .required("Password is required"),
     }),
+
     onSubmit: async (values, { setSubmitting, setFieldError }) => {
       try {
         const response = await axios.post(
-          "https://your-api-url.com/api/login",
+          `https://finhelp.zitch.ng/api/login/`,  // Use the API base URL from the environment variables
           {
             email: values.email,
             password: values.password,
