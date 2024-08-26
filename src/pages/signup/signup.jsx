@@ -47,7 +47,7 @@ export const Signup = () => {
         toast.success("Proceed to verify account")        
         setTimeout(() => {
           navigate("/otp");
-        }, 2000);
+        }, 4000);
       } catch (err) {
         toast.error('Ops!, phone humber already exist');
         setFieldError("email", "Signup failed. Please try again.");

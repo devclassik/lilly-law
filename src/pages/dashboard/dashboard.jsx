@@ -7,7 +7,7 @@ import { Profile } from './profile';
 
 export const Dashboard = () => {
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="flex min-h-screen bg-primary-bgYellow">
       <Sidebar />
       <div className="flex-1 p-8">
         <div className="bg-white p-8 rounded-lg shadow-lg">
