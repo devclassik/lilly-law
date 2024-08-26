@@ -8,6 +8,7 @@ import { Signup } from "./pages/signup/signup";
 import { Dashboard } from "./pages/dashboard/dashboard";
 import { SendFund } from "./pages/sendFun/sendFund";
 import { Sidebar } from "./components/SideBar";
+import OtpVerification from "./pages/otp/otp";
 
 // Layout component for authenticated routes
 const Layout = ({ children }) => {
@@ -31,6 +32,7 @@ function App() {
           <Route path="/" element={<Login />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/otp" element={<OtpVerification />} />
           <Route
             path="/dashboard/*"
             element={

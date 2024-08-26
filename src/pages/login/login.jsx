@@ -11,7 +11,7 @@ export const Login = () => {
   const navigate = useNavigate();
 
   // Get the API base URL from environment variables
-  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+  const baseURL = process.env.REACT_APP_API_BASE_URL;
 
   const formik = useFormik({
     initialValues: {
@@ -30,7 +30,7 @@ export const Login = () => {
     onSubmit: async (values, { setSubmitting, setFieldError }) => {
       try {
         const response = await axios.post(
-          `https://finhelp.zitch.ng/api/login/`,  // Use the API base URL from the environment variables
+          `${baseURL}/login/`, 
           {
             email: values.email,
             password: values.password,
