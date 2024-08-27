@@ -67,6 +67,11 @@ export const Login = () => {
         <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
           <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
           <form onSubmit={formik.handleSubmit}>
+            {formik.errors.email && formik.touched.email && (
+              <p className="text-red-500 text-center mt-2">
+                {formik.errors.email}
+              </p>
+            )}
             <div className="mb-4">
               <label htmlFor="email" className="block text-gray-700">
                 Email
@@ -84,11 +89,6 @@ export const Login = () => {
                     : "border-gray-300 focus:ring-blue-600"
                 }`}
               />
-              {formik.errors.email && formik.touched.email && (
-                <p className="text-red-500 text-center mt-2">
-                  {formik.errors.email}
-                </p>
-              )}
             </div>
             <div className="mb-4">
               <label htmlFor="password" className="block text-gray-700">

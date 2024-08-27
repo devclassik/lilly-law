@@ -10,7 +10,7 @@ export const Dashboard = () => {
     <div className="flex min-h-screen bg-bgY">
       <Sidebar />
       <div className="flex-1 p-8">
-        <div className="bg-white p-8 rounded-lg shadow-lg">
+        <div className="bg-primary-bgYellow p-4 rounded-lg shadow-lg">
           <Routes>
             <Route path="/" element={<Overview />} />
             <Route path="/profile" element={<Profile />} />
