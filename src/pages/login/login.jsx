@@ -5,8 +5,7 @@ import axios from "axios";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Spinner } from "../../components/Spinner";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { showErrorToast, showSuccessToast } from "../../utils/toastUtils";
 
 export const Login = () => {
   const { login } = useAuth();
@@ -35,14 +34,12 @@ export const Login = () => {
         });
 
         if (response.data.access_data) {
-          toast.success("Login successful");
-
+          showSuccessToast("Login successful");
           const { access, refresh } = response.data.access_data;
-
-          setTimeout(() => {
+          console.log( response.data.access_data);
+          
             login(access, refresh);
             navigate("/dashboard");
-          }, 3000); // Adjust timing as needed
         } else {
           setFieldError(
             "email",
@@ -51,7 +48,7 @@ export const Login = () => {
           setFieldError("password", "");
         }
       } catch (err) {
-        toast.error("Oops, please check your credentials.");
+        showErrorToast("Oops, please check your credentials.");
         setFieldError("email", "Login failed. Please try again.");
         setFieldError("password", "");
       }
@@ -61,8 +58,6 @@ export const Login = () => {
 
   return (
     <>
-      <ToastContainer />
-
       <div className="min-h-screen flex items-center justify-center bg-gray-100">
         <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
           <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>

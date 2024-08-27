@@ -4,8 +4,7 @@ import * as Yup from "yup";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Spinner } from "../../components/Spinner";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { showErrorToast, showSuccessToast } from "../../utils/toastUtils";
 
 const OtpVerification = () => {
   const baseURL = process.env.REACT_APP_API_BASE_URL;
@@ -31,11 +30,11 @@ const OtpVerification = () => {
       const email = localStorage.getItem("email");
       //   const response = await axios.post(`${baseURL}/request_otp/`, { email });
       //   localStorage.setItem("otp", response.data.otp);
-      //   toast.success("OTP sent successfully.");
+      //   showSuccessToast("OTP sent successfully.");
       setCountdown(300);
       setCanRequestOtp(false);
     } catch (error) {
-      toast.error("Failed to request OTP. Please try again.");
+      showErrorToast("Failed to request OTP. Please try again.");
     }
   };
 
@@ -53,14 +52,12 @@ const OtpVerification = () => {
     onSubmit: async (values, { setSubmitting, setFieldError }) => {
       try {
         const response = await axios.post(`${baseURL}/validate_email/`, values);
-        toast.success("Account verification successful");
-        setTimeout(() => {
+        showSuccessToast("Account verification successful");
           navigate("/login");
           localStorage.setItem("loginData", response.data);
 
-        }, 2000);
       } catch (err) {
-        toast.error("Invalid OTP. Please try again.");
+        showErrorToast("Invalid OTP. Please try again.");
         setFieldError("otp", "Invalid OTP. Please try again.");
       }
       setSubmitting(false);
@@ -69,7 +66,6 @@ const OtpVerification = () => {
 
   return (
     <>
-      <ToastContainer />
       <div className="min-h-screen flex items-center justify-center bg-gray-100">
         <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
           <h2 className="text-2xl font-bold mb-6 text-center">Verify OTP</h2>

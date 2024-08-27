@@ -4,8 +4,7 @@ import * as Yup from "yup";
 import axios from "axios";
 import { Spinner } from "../../components/Spinner";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { showErrorToast, showSuccessToast } from "../../utils/toastUtils";
 
 export const Signup = () => {
   const navigate = useNavigate();
@@ -44,12 +43,10 @@ export const Signup = () => {
       try {
         localStorage.setItem("email", values.email);
         const response = await axios.post(`${baseURL}/register/`, values);
-        toast.success("Proceed to verify account");
-        setTimeout(() => {
+        showSuccessToast("Proceed to verify account");
           navigate("/otp");
-        }, 4000);
       } catch (err) {
-        toast.error("Ops!, phone humber already exist");
+        showErrorToast("Ops!, phone humber already exist");
         setFieldError("email", "Signup failed. Please try again.");
       }
       setSubmitting(false);
@@ -65,7 +62,7 @@ export const Signup = () => {
         if (response.data.message === "Email does not exists on record") {
         }
       } catch (error) {
-        toast.error("This email is already registered");
+        showErrorToast("This email is already registered");
         formik.setFieldError("email", "This email is already registered");
       }
     }
@@ -73,7 +70,6 @@ export const Signup = () => {
 
   return (
     <>
-      <ToastContainer />
       <div className="min-h-screen flex items-center justify-center bg-gray-100">
         <div className="bg-white p-5 rounded-lg shadow-lg max-w-md w-full">
           <h2 className="text-2xl font-bold mb-6 text-center">Sign Up</h2>
