@@ -1,4 +1,3 @@
-// src/components/Layout.js
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { Sidebar } from './SideBar';
@@ -47,7 +46,7 @@ export const Layout = ({ children }) => {
         </>
       )}
 
-      <div className={`flex-1 ${isAuthenticated ? "md:ml-64" : ""} overflow-y-auto p-4`}>
+      <div className={`flex-1 ${isAuthenticated ? "md:ml-64" : ""} overflow-y-auto p-2`}>
         {children}
       </div>
 

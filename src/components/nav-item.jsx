@@ -4,4 +4,5 @@ export const navItems = [
     { label: 'Deposit history', path: '/dashboard/send-fund', icon: 'dashboard' },
     { label: 'profile', path: '/dashboard/dashboard', icon: 'dashboard' },
     { label: 'Settings', path: '/dashboard/settings', icon: 'settings' },
+    { label: 'Upload document', path: '/dashboard/asset-management', icon: 'settings' },
   ];

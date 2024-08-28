@@ -44,7 +44,7 @@ export const Signup = () => {
         localStorage.setItem("email", values.email);
         const response = await axios.post(`${baseURL}/register/`, values);
         showSuccessToast("Proceed to verify account");
-          navigate("/otp");
+        navigate("/otp");
       } catch (err) {
         showErrorToast("Ops!, phone humber already exist");
         setFieldError("email", "Signup failed. Please try again.");
@@ -72,7 +72,8 @@ export const Signup = () => {
     <>
       <div className="min-h-screen flex items-center justify-center bg-gray-100">
         <div className="bg-white p-5 rounded-lg shadow-lg max-w-md w-full">
-          <h2 className="text-2xl font-bold mb-6 text-center">Sign Up</h2>
+          <h2 className="text-2xl font-bold text-center">Attorney Chamber</h2>
+          <h4 className="text-lg font-normal mb-6 text-center">Login</h4>{" "}
           <form onSubmit={formik.handleSubmit}>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-4">
               <div>
@@ -306,7 +307,6 @@ export const Signup = () => {
               {formik.isSubmitting ? <Spinner /> : "Sign Up"}
             </button>
           </form>
-
           <p className="text-center text-gray-600 mt-4">
             Already have an account?{" "}
             <a href="/login" className="text-blue-600">

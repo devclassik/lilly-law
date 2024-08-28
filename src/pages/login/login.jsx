@@ -23,7 +23,7 @@ export const Login = () => {
         .email("Invalid email address")
         .required("Email is required"),
       password: Yup.string()
-        .min(6, "Password must be at least 6 characters")
+        .min(2, "Password must be at least 6 characters")
         .required("Password is required"),
     }),
     onSubmit: async (values, { setSubmitting, setFieldError }) => {
@@ -60,7 +60,8 @@ export const Login = () => {
     <>
       <div className="min-h-screen flex items-center justify-center bg-gray-100">
         <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
-          <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
+          <h2 className="text-2xl font-bold text-center">Attorney Chamber</h2>
+          <h4 className="text-lg font-normal mb-6 text-center">Login</h4>
           <form onSubmit={formik.handleSubmit}>
             {formik.errors.email && formik.touched.email && (
               <p className="text-red-500 text-center mt-2">

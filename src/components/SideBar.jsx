@@ -1,4 +1,3 @@
-// src/components/SideBar.js
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
@@ -28,7 +27,7 @@ export const Sidebar = () => {
     <div className="flex flex-col h-full p-4 bg-gray-800 text-white rounded-r-lg">
       <div className="flex items-center mb-6">
         <img src={Logo} alt="Logo" className="w-12 h-12" />
-        <span className="text-2xl font-bold ml-4">Athony Chamber</span>
+        <span className="text-2xl font-bold ml-4">Attorney Chamber</span>
       </div>
       <ul className="space-y-2 flex-1">
         {navItems.map((navItem, index) => (
