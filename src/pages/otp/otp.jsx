@@ -5,12 +5,14 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Spinner } from "../../components/Spinner";
 import { showErrorToast, showSuccessToast } from "../../utils/toastUtils";
+import { useUser } from "../dashboard/hooks/useUser";
 
 const OtpVerification = () => {
   const baseURL = process.env.REACT_APP_API_BASE_URL;
   const navigate = useNavigate();
+  const { getAllData, saveToLocalStorage } = useUser();
 
-  const [countdown, setCountdown] = useState(300); // 5 minutes in seconds
+  const [countdown, setCountdown] = useState(300);
   const [canRequestOtp, setCanRequestOtp] = useState(false);
 
   useEffect(() => {
@@ -27,10 +29,24 @@ const OtpVerification = () => {
 
   const requestOtp = async () => {
     try {
-      const email = localStorage.getItem("email");
-      //   const response = await axios.post(`${baseURL}/request_otp/`, { email });
-      //   localStorage.setItem("otp", response.data.otp);
-      //   showSuccessToast("OTP sent successfully.");
+      if (getAllData("up") === undefined) return;
+
+      const trialLogin = await axios.post(`${baseURL}/login/`, {
+        email: getAllData("up")?.email,
+        password: getAllData("up")?.password,
+      });
+      if (!trialLogin.data.access_data) return;
+      const trialAgain = await trialLogin;
+      const otp = await axios.post(
+        `${baseURL}/request_otp/`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${trialAgain.data.access_data.access}`,
+          },
+        }
+      );
+      showSuccessToast(otp.data.message);
       setCountdown(300);
       setCanRequestOtp(false);
     } catch (error) {
@@ -40,7 +56,7 @@ const OtpVerification = () => {
 
   const formik = useFormik({
     initialValues: {
-      email: localStorage.getItem("email"),
+      email: getAllData("up")?.email,
       token: "",
     },
     validationSchema: Yup.object({
@@ -53,9 +69,8 @@ const OtpVerification = () => {
       try {
         const response = await axios.post(`${baseURL}/validate_email/`, values);
         showSuccessToast("Account verification successful");
-          navigate("/login");
-          localStorage.setItem("loginData", response.data);
-
+        navigate("/login");
+        saveToLocalStorage("ld", response.data);
       } catch (err) {
         showErrorToast("Invalid OTP. Please try again.");
         setFieldError("otp", "Invalid OTP. Please try again.");
@@ -119,6 +134,12 @@ const OtpVerification = () => {
                     countdown % 60
                   }`}
             </button>
+            <p className="text-center text-gray-600 mt-4">
+              Already have an account?{" "}
+              <a href="/login" className="text-blue-600">
+                Login
+              </a>
+            </p>
           </div>
         </div>
       </div>

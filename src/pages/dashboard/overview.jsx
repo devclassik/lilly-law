@@ -9,6 +9,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { showErrorToast } from "../../utils/toastUtils";
 import { Link, useNavigate } from "react-router-dom";
 import {Panel} from '../../components/panel'
+import { useUser } from "./hooks/useUser";
 
 export const Overview = () => {
   const [data, setData] = useState(null);
@@ -17,9 +18,13 @@ export const Overview = () => {
 
   const { token, refreshToken, logout } = useAuth();
   const navigate = useNavigate();
+  const baseURL = process.env.REACT_APP_API_BASE_URL;
 
-  const isRtl =
 
+
+  const { getAllData, setUserData, saveToLocalStorage } =useUser();
+  
+  
   useEffect(() => {
     const fetchData = async () => {
       if (!token) {
@@ -30,7 +35,7 @@ export const Overview = () => {
 
       try {
         const response = await axios.post(
-          `${process.env.REACT_APP_API_BASE_URL}/user_details/`,
+          `${baseURL}/user_details/`,
           {},
           {
             headers: {
@@ -39,18 +44,19 @@ export const Overview = () => {
           }
         );
 
-        console.log(response.data.user_data.is_email_verify === false);
-
         if (response.data.user_data.is_email_verify === false) {
           showErrorToast("Email not verified");
           navigate("/otp");
           return;
         }
 
-        setData(response.data.user_data);
+        console.log('response', response);
+        
+        setUserData(response.data.user_data);
+        setData(response.data.user_data)
+        saveToLocalStorage('ud',response.data.user_data)
       } catch (error) {
         if (error.response && error.response.status === 401) {
-          // Unauthorized, token might be expired
           showErrorToast("Session expired. Please log in again.");
           logout();
           navigate("/login");
@@ -77,19 +83,19 @@ export const Overview = () => {
   if (!data) {
     return <div>No data available</div>;
   }
-  const amount = `$${data?.user_account_balance || '0.00'}`;
+  const amount = `$${getAllData('ud')?.user_account_balance || '0.00'}`;
 
 
   return (
     <div>
-    <ul className="flex space-x-2 rtl:space-x-reverse">
-      <li>
-        <Link to="#" className="text-primary hover:underline">Welcome </Link>
-      </li>
-      <li className=" ltr:before:mr-2 rtl:before:ml-2">
-        <span> {data.user_first_name}</span>
-      </li>
-    </ul>
+    <div className="py-2">
+       <Panel
+        title="Welcome !"
+        amount={getAllData('ud')?.user_first_name}
+        color="from-cyan-500 to-cyan-400"
+      />
+    </div>
+    
 
     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mb-6 text-white">
       <Panel

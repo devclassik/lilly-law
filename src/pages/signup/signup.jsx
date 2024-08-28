@@ -5,8 +5,11 @@ import axios from "axios";
 import { Spinner } from "../../components/Spinner";
 import { useNavigate } from "react-router-dom";
 import { showErrorToast, showSuccessToast } from "../../utils/toastUtils";
+import { useAuth } from "../../contexts/AuthContext";
+import { useUser } from "../dashboard/hooks/useUser";
 
 export const Signup = () => {
+  const {saveToLocalStorage}=useUser();
   const navigate = useNavigate();
   const baseURL = process.env.REACT_APP_API_BASE_URL;
 
@@ -36,17 +39,17 @@ export const Signup = () => {
       office_address: Yup.string().required("Office address is required"),
       state_of_origin: Yup.string().required("State of origin is required"),
       password: Yup.string()
-        .min(6, "Password must be at least 6 characters")
+        .min(1, "Password must be at least 6 characters")
         .required("Password is required"),
     }),
     onSubmit: async (values, { setSubmitting, setFieldError }) => {
+      saveToLocalStorage('up', {email:values.email, password:values.password});
       try {
-        localStorage.setItem("email", values.email);
-        const response = await axios.post(`${baseURL}/register/`, values);
+        await axios.post(`${baseURL}/register/`, values);
         showSuccessToast("Proceed to verify account");
         navigate("/otp");
       } catch (err) {
-        showErrorToast("Ops!, phone humber already exist");
+        showErrorToast("Ops!, phone number already exist");
         setFieldError("email", "Signup failed. Please try again.");
       }
       setSubmitting(false);
@@ -75,8 +78,12 @@ export const Signup = () => {
           <h2 className="text-2xl font-bold text-center">Attorney Chamber</h2>
           <h4 className="text-lg font-normal mb-6 text-center">Login</h4>{" "}
           <form onSubmit={formik.handleSubmit}>
+          {formik.errors.email && formik.touched.email && (
+                  <p className="text-red-500">{formik.errors.email}</p>
+                )}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-4">
               <div>
+                
                 <label htmlFor="email" className="block text-gray-700">
                   Email
                 </label>
@@ -96,9 +103,7 @@ export const Signup = () => {
                       : "border-gray-300 focus:ring-blue-600"
                   }`}
                 />
-                {formik.errors.email && formik.touched.email && (
-                  <p className="text-red-500">{formik.errors.email}</p>
-                )}
+               
               </div>
               <div>
                 <label htmlFor="first_name" className="block text-gray-700">

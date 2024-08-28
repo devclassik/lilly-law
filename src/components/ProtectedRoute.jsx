@@ -4,11 +4,10 @@ import { useAuth } from '../contexts/AuthContext';
 import { LoadingSpinner } from './loadingScreen';
 
 const ProtectedRoute = ({ children }) => {
-  // const { isLoggedIn } = useAuth();
   const { isAuthenticated, loading } = useAuth();
 
   if (loading) {
-    return <LoadingSpinner />; // Show loading state
+    return <LoadingSpinner />;
   }
 
   if (!isAuthenticated) {

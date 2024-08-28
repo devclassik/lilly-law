@@ -1,5 +1,5 @@
-// src/contexts/AuthContext.js
 import React, { createContext, useState, useContext, useEffect } from "react";
+import { useUser } from "../pages/dashboard/hooks/useUser";
 
 const AuthContext = createContext();
 
@@ -11,46 +11,39 @@ export const AuthProvider = ({ children }) => {
   const [refreshToken, setRefreshToken] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const { getAllData } = useUser();
+
   useEffect(() => {
     const checkAuth = () => {
-      const storedToken = localStorage.getItem("token");
-      const storedRefreshToken = localStorage.getItem("refreshToken");
+      const authData = getAllData("ar");
 
-      if (storedToken && storedRefreshToken) {
+      if (authData?.access && authData?.refresh) {
         setIsAuthenticated(true);
-        setToken(storedToken);
-        setRefreshToken(storedRefreshToken);
+        setToken(authData.access);
+        setRefreshToken(authData.refresh);
+      } else {
+        setIsAuthenticated(false);
+        setToken(null);
+        setRefreshToken(null);
       }
       setLoading(false);
     };
 
     checkAuth();
-  }, []);
+  }, [getAllData]);
 
   const login = (accessToken, refreshToken) => {
     setIsAuthenticated(true);
     setToken(accessToken);
     setRefreshToken(refreshToken);
-    localStorage.setItem("token", accessToken);
-    localStorage.setItem("refreshToken", refreshToken);
-
-    // console.log("Logged in:", { accessToken, refreshToken });
   };
 
   const logout = () => {
     setIsAuthenticated(false);
     setToken(null);
     setRefreshToken(null);
-    localStorage.removeItem("token");
-    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("ar");
   };
-
-  // console.log("AuthContext state:", {
-  //   isAuthenticated,
-  //   token,
-  //   refreshToken,
-  //   loading,
-  // });
 
   return (
     <AuthContext.Provider

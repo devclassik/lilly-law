@@ -6,9 +6,12 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Spinner } from "../../components/Spinner";
 import { showErrorToast, showSuccessToast } from "../../utils/toastUtils";
+import { useUser } from "../dashboard/hooks/useUser";
 
 export const Login = () => {
   const { login } = useAuth();
+  const { saveToLocalStorage } = useUser();
+  
   const navigate = useNavigate();
 
   const baseURL = process.env.REACT_APP_API_BASE_URL;
@@ -39,22 +42,22 @@ export const Login = () => {
           console.log( response.data.access_data);
           
             login(access, refresh);
+            saveToLocalStorage('ar', {access, refresh})
             navigate("/dashboard");
         } else {
-          setFieldError(
-            "email",
-            "Login failed. Please check your credentials."
-          );
-          setFieldError("password", "");
+          handleLoginFailure(setFieldError);
         }
       } catch (err) {
-        showErrorToast("Oops, please check your credentials.");
-        setFieldError("email", "Login failed. Please try again.");
-        setFieldError("password", "");
+        handleLoginFailure(setFieldError, "Oops, please check your credentials.");
       }
       setSubmitting(false);
     },
   });
+
+  const handleLoginFailure = (setFieldError, errorMessage = "Login failed. Please check your credentials.") => {
+    setFieldError("email", errorMessage);
+    setFieldError("password", "");
+  };
 
   return (
     <>
