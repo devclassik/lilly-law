@@ -141,7 +141,7 @@ export const Overview = () => {
         />
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mb-6 text-white">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 gap-6 mb-6 text-white">
         {/* Calendar */}
         <div className="bg-white p-4 rounded-lg shadow-md">
           <AreaChart />
