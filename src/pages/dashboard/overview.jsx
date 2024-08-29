@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
-// import { Icon } from "@iconify/react";
-// import accountBalanceIcon from "@iconify-icons/mdi/currency-usd";
-// import historyIcon from "@iconify-icons/mdi/history";
-// import transactionsIcon from "@iconify-icons/mdi/cash-multiple";
-// import settingsIcon from "@iconify-icons/mdi/cog";
+import { FaDollarSign } from "react-icons/fa";
 import axios from "axios";
 import { useAuth } from "../../contexts/AuthContext";
 import { showErrorToast } from "../../utils/toastUtils";
 import { useNavigate } from "react-router-dom";
-import {Panel} from '../../components/panel'
+import { Panel } from "../../components/panel";
 import { useUser } from "./hooks/useUser";
+import {
+  RiUser2Fill,
+  Ri24HoursLine,
+} from "react-icons/ri";
+import { AreaChart } from "../../components/areaChart";
+import { CalendarComponent } from "../../components/calendar/calendar";
 
 export const Overview = () => {
   const [data, setData] = useState(null);
@@ -20,9 +22,8 @@ export const Overview = () => {
   const navigate = useNavigate();
   const baseURL = process.env.REACT_APP_API_BASE_URL;
 
-  const { getAllData, setUserData, saveToLocalStorage } =useUser();
-  
-  
+  const { getAllData, setUserData, saveToLocalStorage } = useUser();
+
   useEffect(() => {
     const fetchData = async () => {
       if (!token) {
@@ -47,10 +48,10 @@ export const Overview = () => {
           navigate("/otp");
           return;
         }
-        
+
         setUserData(response.data.user_data);
-        setData(response.data.user_data)
-        saveToLocalStorage('ud',response.data.user_data)
+        setData(response.data.user_data);
+        saveToLocalStorage("ud", response.data.user_data);
       } catch (error) {
         if (error.response && error.response.status === 401) {
           showErrorToast("Session expired. Please log in again.");
@@ -66,7 +67,15 @@ export const Overview = () => {
     };
 
     fetchData();
-  }, [token, refreshToken, navigate, logout, baseURL, saveToLocalStorage, setUserData]);
+  }, [
+    token,
+    refreshToken,
+    navigate,
+    logout,
+    baseURL,
+    saveToLocalStorage,
+    setUserData,
+  ]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -79,55 +88,85 @@ export const Overview = () => {
   if (!data) {
     return <div>No data available</div>;
   }
-  const amount = `$${getAllData('ud')?.user_account_balance || '0.00'}`;
+  const amount = `$${getAllData("ud")?.user_account_balance || "0.00"}`;
 
+  const chartData = [
+    { name: "Jan", uv: 4000 },
+    { name: "Feb", uv: 3000 },
+    { name: "Mar", uv: 2000 },
+    { name: "Apr", uv: 2780 },
+    { name: "May", uv: 1890 },
+    { name: "Jun", uv: 2390 },
+    { name: "Jul", uv: 3490 },
+  ];
 
   return (
     <div>
-    <div className="py-2">
-       <Panel
-        title="Welcome !"
-        amount={getAllData('ud')?.user_first_name}
-        color="from-cyan-500 to-cyan-400"
-      />
+      <div className="py-2">
+        <Panel
+          title="Welcome !"
+          subtitle="Manage your profile"
+          amount={getAllData("ud")?.user_first_name}
+          icon={<RiUser2Fill color="green" />}
+        />
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mb-6 text-white">
+        <Panel
+          title="Account Balance"
+          subtitle="Last Week"
+          amount={amount}
+          icon={<FaDollarSign color="red" />}
+        />
+
+        <Panel
+          title="Sessions"
+          amount="74,137"
+          icon={<Ri24HoursLine color="red" />}
+          color="from-violet-500 to-violet-400"
+        />
+
+        <Panel
+          title="Time "
+          amount="38,085"
+          icon={<FaDollarSign color="red" />}
+          color="from-blue-500 to-blue-400"
+        />
+
+        <Panel
+          title="Rate"
+          amount="49.10%"
+          icon={<FaDollarSign color="green" />}
+          // tailwindStyle="bg-gradient-to-r from-cyan-500 to-cyan-400"
+        />
+      </div>
+
+      <div className="grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-2 gap-6 mb-6 text-white">
+        {/* Calendar */}
+        <div className="bg-white p-4 rounded-lg shadow-md">
+          <AreaChart />
+        </div>
+
+        {/* Chart */}
+        <div className="bg-white p-4 rounded-lg shadow-md">
+          {/* <ResponsiveContainer width="100%" height={200}>
+            <LineChart data={chartData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Line
+                type="monotone"
+                dataKey="uv"
+                stroke="#8884d8"
+                activeDot={{ r: 8 }}
+              />
+            </LineChart>
+          </ResponsiveContainer> */}
+          <CalendarComponent />
+        </div>
+      </div>
     </div>
-    
-
-    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mb-6 text-white">
-      <Panel
-        title="Users Visit"
-        amount={amount}
-        icon="Last Week 44,700"
-        color="from-cyan-500 to-cyan-400"
-      />
-
-      <Panel
-        title="Sessions"
-        amount="74,137"
-        icon="Last Week 84,709"
-        color="from-violet-500 to-violet-400"
-      />
-
-      <Panel
-        title="Time On-Site"
-        amount="38,085"
-        icon="Last Week 37,894"
-        color="from-blue-500 to-blue-400"
-      />
-
-      <Panel
-        title="Bounce Rate"
-        amount="49.10%"
-        icon="Last Week 50.01%"
-        color="from-gray-50 to-gray-400"
-      />
-      {/* <Panel
-        title="Bounce Rate"
-        amount="49.10%"
-        icon="Last Week 50.01%"
-        color="from-fuchsia-500 to-fuchsia-400"
-      /> */}
-    </div>
-  </div>
-);
+  );
 };

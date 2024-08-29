@@ -1,0 +1,20 @@
+kalenda .react-calendar {
+  background-color: #f87171; /* Tailwind's bg-red-500 color in hex */
+  border-radius: 0.5rem; /* Tailwind's rounded-lg */
+  padding: 1rem; /* Tailwind's p-4 */
+}
+
+kalenda .react-calendar__tile {
+  background-color: #108f07; /* Tailwind's bg-red-100 */
+  border-radius: 0.375rem; /* Tailwind's rounded-md */
+  transition: background-color 0.3s;
+}
+
+kalenda .react-calendar__tile--active {
+  background-color: #fca5a5; /* Tailwind's bg-red-300 */
+}
+
+kalenda .react-calendar__tile:hover {
+  background-color: #f87171; /* Tailwind's bg-red-500 */
+  color: white;
+}

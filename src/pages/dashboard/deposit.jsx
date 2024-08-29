@@ -5,6 +5,9 @@ import { showErrorToast } from "../../utils/toastUtils";
 import axios from "axios";
 import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+import {
+  RiUser3Line,
+RiBankCard2Line} from "react-icons/ri";
 
 const Deposit = () => {
   const { token } = useAuth();
@@ -58,7 +61,7 @@ const Deposit = () => {
   }, [userId, baseURL, token, navigate]);
 
   if (loading) {
-    return <div>Loading...</div>; // You can replace this with a spinner or loading component
+    return <div>Loading...</div>; 
   }
 
   return (
@@ -68,12 +71,14 @@ const Deposit = () => {
           getAllData("ud")?.user_last_name
         }`}
         amount="Deposit"
-        color="from-cyan-500 to-cyan-400"
+        icon={<RiUser3Line  color="red"/>}
+
       />
       <Panel
         title="Agip Bank"
+        subtitle="Onome Moses Tolu"
         amount="09876543"
-        color="from-violet-500 to-violet-400"
+        icon={<RiBankCard2Line  color="red"/>}
       />
     </div>
   );
