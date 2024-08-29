@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Icon } from "@iconify/react";
-import accountBalanceIcon from "@iconify-icons/mdi/currency-usd";
-import historyIcon from "@iconify-icons/mdi/history";
-import transactionsIcon from "@iconify-icons/mdi/cash-multiple";
-import settingsIcon from "@iconify-icons/mdi/cog";
+// import { Icon } from "@iconify/react";
+// import accountBalanceIcon from "@iconify-icons/mdi/currency-usd";
+// import historyIcon from "@iconify-icons/mdi/history";
+// import transactionsIcon from "@iconify-icons/mdi/cash-multiple";
+// import settingsIcon from "@iconify-icons/mdi/cog";
 import axios from "axios";
 import { useAuth } from "../../contexts/AuthContext";
 import { showErrorToast } from "../../utils/toastUtils";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {Panel} from '../../components/panel'
 import { useUser } from "./hooks/useUser";
 
@@ -70,7 +70,7 @@ export const Overview = () => {
     };
 
     fetchData();
-  }, [token, refreshToken, navigate, logout]);
+  }, [token, refreshToken, navigate, logout, baseURL, saveToLocalStorage, setUserData]);
 
   if (loading) {
     return <div>Loading...</div>;

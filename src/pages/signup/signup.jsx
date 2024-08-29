@@ -5,7 +5,6 @@ import axios from "axios";
 import { Spinner } from "../../components/Spinner";
 import { useNavigate } from "react-router-dom";
 import { showErrorToast, showSuccessToast } from "../../utils/toastUtils";
-import { useAuth } from "../../contexts/AuthContext";
 import { useUser } from "../dashboard/hooks/useUser";
 
 export const Signup = () => {

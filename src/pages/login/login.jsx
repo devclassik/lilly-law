@@ -57,6 +57,7 @@ export const Login = () => {
   const handleLoginFailure = (setFieldError, errorMessage = "Login failed. Please check your credentials.") => {
     setFieldError("email", errorMessage);
     setFieldError("password", "");
+    showErrorToast('Oops, please check your credentials.')
   };
 
   return (
