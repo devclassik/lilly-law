@@ -15,7 +15,7 @@ const mockData = [
 
 const PaymentHistory = () => {
     const { getAllData } = useUser();
-    const [paymentData, setPaymentData] = useState([]);
+    const [ setPaymentData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const { token } = useAuth();
@@ -52,7 +52,7 @@ const PaymentHistory = () => {
       if (userId) {
         fetchPaymentHistory();
       }
-    }, [userId]);
+    }, [userId, baseURL, navigate, setPaymentData, token, setError]);
   
     if (loading) return <p>Loading...</p>;
     if (error) return <p className="text-red-500">{error}</p>;

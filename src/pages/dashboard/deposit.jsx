@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useFormik } from "formik";
-import * as Yup from "yup";
 import { Panel } from "../../components/panel";
 import { useUser } from "./hooks/useUser";
 import { showErrorToast } from "../../utils/toastUtils";
@@ -12,9 +10,9 @@ const Deposit = () => {
     const { token } = useAuth();
   const { getAllData } = useUser();
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
+  const [ setLoading] = useState(true);
 
-  const [paymentData, setPaymentData] = useState([]);
+  const [setPaymentData] = useState([]);
 
 
   const baseURL = process.env.REACT_APP_API_BASE_URL;
@@ -50,7 +48,7 @@ const Deposit = () => {
     if (userId) {
       makePayment();
     }
-  }, [userId]);
+  }, [userId, baseURL, setLoading, token, navigate, setPaymentData]);
 
   return (
     <div className="p-4 space-y-4">
@@ -67,36 +65,6 @@ const Deposit = () => {
         color="from-violet-500 to-violet-400"
       />
 
-      {/* <form onSubmit={formik.handleSubmit}>
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">
-            Deposit Amount
-          </label>
-          <input
-            type="number"
-            name="amount"
-            value={formik.values.amount}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            className={`mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${
-              formik.errors.amount && formik.touched.amount
-                ? "border-red-500"
-                : ""
-            }`}
-            placeholder="Enter amount"
-          />
-          {formik.errors.amount && formik.touched.amount && (
-            <p className="text-red-500 text-xs mt-1">{formik.errors.amount}</p>
-          )}
-        </div>
-        <button
-          type="submit"
-          disabled={formik.isSubmitting}
-          className="w-full bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:bg-gray-300"
-        >
-          {formik.isSubmitting ? "Submitting..." : "Deposit"}
-        </button>
-      </form> */}
     </div>
   );
 };

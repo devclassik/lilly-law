@@ -1,4 +1,3 @@
-// src/pages/dashboard/dashboard.js
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { SendFund } from '../sendFun/sendFund';
