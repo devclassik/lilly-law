@@ -6,7 +6,9 @@ import {
   RiSettings3Line,
   RiLogoutCircleLine,
   RiBankFill,
-  RiHistoryFill
+  RiHistoryFill,
+  RiUser2Fill,
+  RiUploadCloudFill
 } from "react-icons/ri";
 import Logo from "../assets/jpg/logoMain.jpg";
 import { useAuth } from "../contexts/AuthContext";
@@ -22,6 +24,8 @@ export const Sidebar = () => {
     dashboard: <RiDashboardLine className="mr-3" />,
     deposit: <RiBankFill className="mr-3" />,
     history: <RiHistoryFill className="mr-3" />,
+    profile: <RiUser2Fill className="mr-3" />,
+    upload: <RiUploadCloudFill className="mr-3" />,
     sendFund: <RiSendPlaneLine className="mr-3" />,
     settings: <RiSettings3Line className="mr-3" />,
     logout: <RiLogoutCircleLine className="mr-3" />,
