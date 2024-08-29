@@ -7,39 +7,44 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 const Deposit = () => {
-    const { token } = useAuth();
+  const { token } = useAuth();
   const { getAllData } = useUser();
   const navigate = useNavigate();
-  const [ setLoading] = useState(true);
-
-  const [setPaymentData] = useState([]);
-
+  const [loading, setLoading] = useState(true);
+  const [paymentData, setPaymentData] = useState([]);
 
   const baseURL = process.env.REACT_APP_API_BASE_URL;
 
   const userId = getAllData("ud")?.user_first_name;
-  
+
   useEffect(() => {
     const makePayment = async () => {
       if (!token) {
-          showErrorToast("No authentication token found.");
-          navigate("/login");
-          return;
-        }
+        showErrorToast("No authentication token found.");
+        navigate("/login");
+        return;
+      }
+
       try {
-        const response = await axios.post(`${baseURL}/deposit_accounts/`,{},
+        const response = await axios.post(
+          `${baseURL}/deposit_accounts/`,
+          {},
           {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-      );
-      console.log('res', response.data.account_to_deposit);
-              
-        setPaymentData(response.data.account_to_deposit);
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (response?.data?.account_to_deposit) {
+          setPaymentData(response.data.account_to_deposit);
+        } else {
+          showErrorToast("No payment data available.");
+        }
       } catch (err) {
-        showErrorToast("Failed to fetch payment history, session expired");
-        navigate('/login');
+        console.error("Failed to fetch payment data:", err);
+        showErrorToast("Failed to fetch payment history, session expired.");
+        navigate("/login");
       } finally {
         setLoading(false);
       }
@@ -47,8 +52,14 @@ const Deposit = () => {
 
     if (userId) {
       makePayment();
+    } else {
+      setLoading(false);
     }
-  }, [userId, baseURL, setLoading, token, navigate, setPaymentData]);
+  }, [userId, baseURL, token, navigate]);
+
+  if (loading) {
+    return <div>Loading...</div>; // You can replace this with a spinner or loading component
+  }
 
   return (
     <div className="p-4 space-y-4">
@@ -64,7 +75,6 @@ const Deposit = () => {
         amount="09876543"
         color="from-violet-500 to-violet-400"
       />
-
     </div>
   );
 };

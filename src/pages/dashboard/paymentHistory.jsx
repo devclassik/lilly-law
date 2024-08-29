@@ -7,55 +7,61 @@ import { useNavigate } from "react-router-dom";
 import { showErrorToast } from "../../utils/toastUtils";
 
 const mockData = [
-  { id: 1, date: "2024-08-01", amount: "$100.00", status: "Completed" },
-  { id: 2, date: "2024-08-05", amount: "$50.00", status: "Pending" },
-  { id: 3, date: "2024-08-10", amount: "$75.00", status: "Completed" },
-  { id: 4, date: "2024-08-15", amount: "$200.00", status: "Failed" },
+  { id: 1, date: "2024-08-01", amount: "USD100.00", status: "Completed" },
+  { id: 2, date: "2024-08-05", amount: "USD50.00", status: "Pending" },
+  { id: 3, date: "2024-08-10", amount: "USD75.00", status: "Completed" },
+  { id: 4, date: "2024-08-15", amount: "USD200.00", status: "Failed" },
 ];
 
 const PaymentHistory = () => {
-    const { getAllData } = useUser();
-    const [ setPaymentData] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const { token } = useAuth();
-    const navigate = useNavigate();
-    const baseURL = process.env.REACT_APP_API_BASE_URL;
+  const { getAllData } = useUser();
+  const [paymentData, setPaymentData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const { token } = useAuth();
+  const navigate = useNavigate();
+  const baseURL = process.env.REACT_APP_API_BASE_URL;
 
-  
-    const userId = getAllData("ud")?.user_first_name;
-  
-    useEffect(() => {
-      const fetchPaymentHistory = async () => {
-        if (!token) {
-            showErrorToast("No authentication token found.");
-            navigate("/login");
-            return;
-          }
-        try {
-          const response = await axios.post(`${baseURL}/deposit_history/`,{},
-            {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                },
-              }
-        );        
-          setPaymentData(response.data.user_deposit_history);
-        } catch (err) {
-          showErrorToast("Failed to fetch payment history, session expired");
-          navigate('/login');
-        } finally {
-          setLoading(false);
-        }
-      };
-  
-      if (userId) {
-        fetchPaymentHistory();
+  const userId = getAllData("ud")?.user_first_name;
+
+  useEffect(() => {
+    const fetchPaymentHistory = async () => {
+      if (!token) {
+        showErrorToast("No authentication token found.");
+        navigate("/login");
+        return;
       }
-    }, [userId, baseURL, navigate, setPaymentData, token, setError]);
-  
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p className="text-red-500">{error}</p>;
+      try {
+        const response = await axios.post(
+          `${baseURL}/deposit_history/`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setPaymentData(response.data.user_deposit_history || mockData);
+      } catch (err) {
+        console.error("Failed to fetch payment history:", err);
+        setError("Failed to fetch payment history, session expired.");
+        showErrorToast("Failed to fetch payment history, session expired.");
+        navigate("/login");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (userId) {
+      fetchPaymentHistory();
+    } else {
+      setLoading(false);
+    }
+  }, [userId, baseURL, navigate, token]);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p className="text-red-500">{error}</p>;
+
   return (
     <div className="p-4 space-y-4">
       <Panel
@@ -73,7 +79,8 @@ const PaymentHistory = () => {
             </tr>
           </thead>
           <tbody>
-            {mockData.map((payment) => (
+            {/* {paymentData.map((payment) => ( */}
+            {mockData?.map((payment) => (
               <tr key={payment.id} className="hover:bg-gray-50">
                 <td className="px-4 py-2 border-b">{payment.date}</td>
                 <td className="px-4 py-2 border-b">{payment.amount}</td>

@@ -20,8 +20,6 @@ export const Overview = () => {
   const navigate = useNavigate();
   const baseURL = process.env.REACT_APP_API_BASE_URL;
 
-
-
   const { getAllData, setUserData, saveToLocalStorage } =useUser();
   
   
@@ -49,8 +47,6 @@ export const Overview = () => {
           navigate("/otp");
           return;
         }
-
-        console.log('response', response);
         
         setUserData(response.data.user_data);
         setData(response.data.user_data)
@@ -123,8 +119,14 @@ export const Overview = () => {
         title="Bounce Rate"
         amount="49.10%"
         icon="Last Week 50.01%"
-        color="from-fuchsia-500 to-fuchsia-400"
+        color="from-gray-50 to-gray-400"
       />
+      {/* <Panel
+        title="Bounce Rate"
+        amount="49.10%"
+        icon="Last Week 50.01%"
+        color="from-fuchsia-500 to-fuchsia-400"
+      /> */}
     </div>
   </div>
 );
