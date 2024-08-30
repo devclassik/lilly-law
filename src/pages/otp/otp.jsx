@@ -35,6 +35,8 @@ const OtpVerification = () => {
         email: getAllData("up")?.email,
         password: getAllData("up")?.password,
       });
+
+      
       if (!trialLogin.data.access_data) return;
       const trialAgain = await trialLogin;
       const otp = await axios.post(
@@ -65,7 +67,8 @@ const OtpVerification = () => {
         .required("OTP is required")
         .matches(/^\d+$/, "OTP must be only digits"),
     }),
-    onSubmit: async (values, { setSubmitting, setFieldError }) => {
+
+    onSubmit: async (values, { setSubmitting, setFieldError }) => {      
       try {
         const response = await axios.post(`${baseURL}/validate_email/`, values);
         showSuccessToast("Account verification successful");
@@ -77,7 +80,9 @@ const OtpVerification = () => {
       }
       setSubmitting(false);
     },
-  });
+  }
+);
+
 
   return (
     <>
