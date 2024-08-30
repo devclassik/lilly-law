@@ -70,10 +70,10 @@ export const Profile = () => {
           }
         );
 
-        if (response.data.staus) {
-          showSuccessToast(response.data.message);
+        if (response.data.status) {
+          showSuccessToast(response?.data?.message);
         } else {
-          showErrorToast('Oops, session expired, kindly logout and login again');
+          showErrorToast('Oops, error occurred, kindly logout and login again');
           navigate('/login');
         }
       } catch (err) {

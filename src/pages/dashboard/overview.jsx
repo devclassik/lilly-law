@@ -100,6 +100,9 @@ export const Overview = () => {
     { name: "Jul", uv: 3490 },
   ];
 
+  console.log(getAllData('ar')?.access);
+  
+
   return (
     <div>
       <div className="py-2">
