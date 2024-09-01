@@ -6,6 +6,7 @@ import { Profile } from './profile';
 import { ComingSoon } from './comingSoon';
 import PaymentHistory from './paymentHistory';
 import Deposit from './deposit';
+import { Currency } from './currency';
 
 export const Dashboard = () => {
   return (
@@ -16,6 +17,7 @@ export const Dashboard = () => {
           <Route path="/deposit" element={<Deposit />} />
           <Route path="/payment-history" element={<PaymentHistory />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/set-currency" element={<Currency />} />
           <Route path="/settings" element={<ComingSoon />} />
           <Route path="/upload-document" element={<ComingSoon />} />
           <Route path="send-fund" element={<SendFund />} />

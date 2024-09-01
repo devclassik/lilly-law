@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { Sidebar } from './SideBar';
 import { LoadingSpinner } from "./loadingScreen";
-import { Ri24HoursFill, RiCloseLine, RiFacebookBoxFill, RiMenuLine } from "react-icons/ri";
+import {  RiCloseLine, RiMenuLine } from "react-icons/ri";
 
 export const Layout = ({ children }) => {
   const { isAuthenticated, loading } = useAuth();
@@ -54,7 +54,7 @@ export const Layout = ({ children }) => {
       {isAuthenticated && (
         <button
           onClick={toggleSidebar}
-          className="fixed top-6 right-6 md:hidden bg-primary text-gray-900 p-4 rounded-full shadow-lg z-30"
+          className="fixed top-2 right-2 md:hidden bg-primary text-gray-900 p-4 rounded-full shadow-lg z-30"
         >
           <span className="sr-only">Toggle Sidebar</span>
           <div className="w-6 h-6">

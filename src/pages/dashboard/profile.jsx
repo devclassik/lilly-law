@@ -10,58 +10,69 @@ import { showErrorToast, showSuccessToast } from "../../utils/toastUtils";
 import { useNavigate } from "react-router-dom";
 
 export const Profile = () => {
-  const { getAllData } = useUser();
-  const { token,  } = useAuth();
+  const { getAllData, saveToLocalStorage } = useUser();
+  const { token } = useAuth();
   const navigate = useNavigate();
-
 
   const [isEditing, setIsEditing] = useState(false);
 
   const baseURL = process.env.REACT_APP_API_BASE_URL;
 
   const userData = getAllData("ud") || {
-    user_email: "abc@gmail.com",
-    user_first_name: "abc",
-    user_phone_number: "081234567",
-    user_address: "Abuja ",
-    user_currency: "USD ",
+    email: "abc@gmail.com",
+    first_name: "abc",
+    phone_number: "081234567",
+    address: "Abuja ",
+    currency: "USD ",
   };
 
   const formik = useFormik({
     initialValues: {
-      user_email: userData?.user_email,
-      user_first_name: userData?.user_first_name,
-      user_last_name: userData?.user_last_name,
-      user_middle_name: userData?.user_middle_name,
-      user_phone_number: userData?.user_phone_number,
-      user_dob: userData?.user_dob,
-      user_state_of_origin: userData?.user_state_of_origin,
-      user_address: userData?.user_address,
+      email: userData?.user_email,
+      first_name: userData?.user_first_name,
+      last_name: userData?.user_last_name,
+      middle_name: userData?.user_middle_name,
+      phone_number: userData?.user_phone_number,
+      date_of_birth: userData?.user_dob,
+      state_of_origin: userData?.user_state_of_origin,
+      address: userData?.user_address,
+      Office_address: userData?.office_address,
+      password: userData?.user_password,
       user_currency: userData?.user_currency || "",
+      // password: userData?.user_currency || "",
     },
-    validationSchema: Yup.object({
-      user_email: Yup.string()
-        .email("Invalid email address")
-        .required("Email is required"),
-      user_first_name: Yup.string().required("first name is required"),
-      user_last_name: Yup.string().required("last name is required"),
-      user_phone_number: Yup.string().required("Phone number is required"),
-      user_dob: Yup.string().required("date of birth is required"),
-      user_state_of_origin: Yup.string().required(
-        "state of origin is required"
-      ),
-      user_address: Yup.string().required("address is required"),
-      user_currency: Yup.string().oneOf(
-        ["USD", "EUR", "GBP", "NGN"],
-        "Invalid currency"
-      ),
-    }),
+    // validationSchema: Yup.object({
+    // //   email: Yup.string()
+    // //     .email("Invalid email address")
+    // //     .required("Email is required"),
+    // //   first_name: Yup.string().required("first name is required"),
+    // //   last_name: Yup.string().required("last name is required"),
+    // //   phone_number: Yup.string().required("Phone number is required"),
+    // //   date_of_birth: Yup.string().required("date of birth is required"),
+    // //   state_of_origin: Yup.string().required(
+    // //     "state of origin is required"
+    // //   ),
+    // //   office_address: Yup.string().required("address is required"),
+    // //   address: Yup.string().required("address is required"),
+    // //   user_currency: Yup.string().oneOf(
+    // //     ["USD", "EUR", "GBP", "NGN"],
+    // //     "Invalid currency"
+    // //   ),
+    // // }),
     onSubmit: async (values) => {
       try {
         const response = await axios.post(
-          `${baseURL}/set_currency/`,
+          `${baseURL}/update_client/`,
           {
-            currency: values.user_currency,
+            email: values.email,
+            first_name: values.first_name,
+            last_name: values.last_name,
+            middle_name: values.middle_name,
+            address: values.address,
+            phone_number: values.phone_number,
+            date_of_birth: values.date_of_birth,
+            office_address: values.office_address,
+            state_of_origin: values.state_of_origin,
           },
           {
             headers: {
@@ -72,13 +83,33 @@ export const Profile = () => {
 
         if (response.data.status) {
           showSuccessToast(response?.data?.message);
+          try {
+            const response = await axios.post(
+              `${baseURL}/user_details/`,
+              {},
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+            );
+            const userData = response.data.user_data;            
+            saveToLocalStorage("ud", userData);
+          } catch (error) {
+            if (error.response && error.response.status === 401) {
+              showErrorToast("Session expired. Please log in again.");
+              navigate("/login");
+            } else {
+              showErrorToast("Failed to load data. Please try again.");
+            }
+          }
         } else {
-          showErrorToast('Oops, error occurred, kindly logout and login again');
-          navigate('/login');
+          showErrorToast("Oops, error occurred, kindly logout and login again");
+          navigate("/login");
         }
       } catch (err) {
-        showErrorToast('Oops, session expired, kindly logout and login again');
-        navigate('/login');
+        showErrorToast("Oops, session expired, kindly logout and login again");
+        // navigate('/login');
       }
       toggleEdit();
     },
@@ -87,8 +118,6 @@ export const Profile = () => {
   const toggleEdit = () => {
     setIsEditing(!isEditing);
     if (isEditing) {
-      console.log("Submitting form...");
-
       console.log("Errors:", formik.errors);
 
       formik.handleSubmit();
@@ -99,9 +128,7 @@ export const Profile = () => {
     <div className="p-4 space-y-4">
       <Panel
         title="Profile Details"
-        amount={`${formik.values.user_first_name} ${""} ${
-          formik.values.user_last_name
-        }`}
+        amount={`${formik.values.first_name} ${""} ${formik.values.last_name}`}
         icon={
           isEditing ? (
             <button onClick={toggleEdit}>
@@ -125,17 +152,17 @@ export const Profile = () => {
           </label>
           <input
             type="email"
-            name="user_first_name"
-            value={formik.values.user_email}
+            name="email"
+            value={formik.values.email}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             className={`mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${
               isEditing ? "bg-white" : "bg-gray-100"
             }`}
-            readOnly={!isEditing}
+            readOnly
           />
-          {formik.errors.user_email && formik.touched.user_email && (
-            <p className="text-red-500">{formik.errors.user_email}</p>
+          {formik.errors.email && formik.touched.email && (
+            <p className="text-red-500">{formik.errors.email}</p>
           )}
         </div>
         <div className="mb-4">
@@ -144,8 +171,8 @@ export const Profile = () => {
           </label>
           <input
             type="text"
-            name="user_first_name"
-            value={formik.values.user_first_name}
+            name="first_name"
+            value={formik.values.first_name}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             className={`mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${
@@ -153,8 +180,8 @@ export const Profile = () => {
             }`}
             readOnly={!isEditing}
           />
-          {formik.errors.user_first_name && formik.touched.user_first_name && (
-            <p className="text-red-500">{formik.errors.user_first_name}</p>
+          {formik.errors.first_name && formik.touched.first_name && (
+            <p className="text-red-500">{formik.errors.first_name}</p>
           )}
         </div>
         <div className="mb-4">
@@ -163,8 +190,8 @@ export const Profile = () => {
           </label>
           <input
             type="text"
-            name="user_last_name"
-            value={formik.values.user_last_name}
+            name="last_name"
+            value={formik.values.last_name}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             className={`mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${
@@ -172,8 +199,8 @@ export const Profile = () => {
             }`}
             readOnly={!isEditing}
           />
-          {formik.errors.user_last_name && formik.touched.user_last_name && (
-            <p className="text-red-500">{formik.errors.user_last_name}</p>
+          {formik.errors.last_name && formik.touched.last_name && (
+            <p className="text-red-500">{formik.errors.ast_name}</p>
           )}
         </div>
         <div className="mb-4">
@@ -182,7 +209,7 @@ export const Profile = () => {
           </label>
           <input
             type="text"
-            name="user_middle_name"
+            name="middle_name"
             value={formik.values.user_middle_name}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -191,10 +218,9 @@ export const Profile = () => {
             }`}
             readOnly={!isEditing}
           />
-          {formik.errors.user_middle_name &&
-            formik.touched.user_middle_name && (
-              <p className="text-red-500">{formik.errors.user_middle_name}</p>
-            )}
+          {formik.errors.user_middle_name && formik.touched.middle_name && (
+            <p className="text-red-500">{formik.errors.middle_name}</p>
+          )}
         </div>
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700">
@@ -202,8 +228,8 @@ export const Profile = () => {
           </label>
           <input
             type="text"
-            name="user_phone_number"
-            value={formik.values.user_phone_number}
+            name="phone_number"
+            value={formik.values.phone_number}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             className={`mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${
@@ -211,10 +237,9 @@ export const Profile = () => {
             }`}
             readOnly={!isEditing}
           />
-          {formik.errors.user_phone_number &&
-            formik.touched.user_phone_number && (
-              <p className="text-red-500">{formik.errors.user_phone_number}</p>
-            )}
+          {formik.errors.phone_number && formik.touched.user_phone_number && (
+            <p className="text-red-500">{formik.errors.phone_number}</p>
+          )}
         </div>
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700">
@@ -222,17 +247,17 @@ export const Profile = () => {
           </label>
           <input
             type="date"
-            name="user_dob"
+            name="date_of_birth"
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
-            value={formik.values.user_dob}
+            value={formik.values.date_of_birth}
             className={`mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${
               isEditing ? "bg-white" : "bg-gray-100"
             }`}
             readOnly={!isEditing}
           />
-          {formik.errors.user_dob && formik.touched.user_dob && (
-            <p className="text-red-500">{formik.errors.user_dob}</p>
+          {formik.errors.date_of_birth && formik.touched.date_of_birth && (
+            <p className="text-red-500">{formik.errors.date_of_birth}</p>
           )}
         </div>
         <div className="mb-4">
@@ -241,8 +266,8 @@ export const Profile = () => {
           </label>
           <input
             type="text"
-            name="email"
-            value={formik.values.user_state_of_origin}
+            name="state_of_origin"
+            value={formik.values.state_of_origin}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             className={`mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${
@@ -250,12 +275,9 @@ export const Profile = () => {
             }`}
             readOnly={!isEditing}
           />
-          {formik.errors.user_state_of_origin &&
-            formik.touched.user_state_of_origin && (
-              <p className="text-red-500">
-                {formik.errors.user_state_of_origin}
-              </p>
-            )}
+          {formik.errors.state_of_origin && formik.touched.state_of_origin && (
+            <p className="text-red-500">{formik.errors.state_of_origin}</p>
+          )}
         </div>
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700">
@@ -263,8 +285,8 @@ export const Profile = () => {
           </label>
           <input
             type="text"
-            name="user_address"
-            value={formik.values.user_address}
+            name="address"
+            value={formik.values.address}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             className={`mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${
@@ -272,8 +294,27 @@ export const Profile = () => {
             }`}
             readOnly={!isEditing}
           />
-          {formik.errors.user_address && formik.touched.user_address && (
-            <p className="text-red-500">{formik.errors.user_address}</p>
+          {formik.errors.address && formik.touched.address && (
+            <p className="text-red-500">{formik.errors.address}</p>
+          )}
+        </div>
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700">
+            Office Address
+          </label>
+          <input
+            type="text"
+            name="office_address"
+            value={formik.values.office_address}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            className={`mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${
+              isEditing ? "bg-white" : "bg-gray-100"
+            }`}
+            readOnly={!isEditing}
+          />
+          {formik.errors.office_address && formik.touched.office_address && (
+            <p className="text-red-500">{formik.errors.office_address}</p>
           )}
         </div>
         <div className="mb-4">
@@ -298,6 +339,25 @@ export const Profile = () => {
           </select>
           {formik.errors.currency && formik.touched.currency && (
             <p className="text-red-500">{formik.errors.currency}</p>
+          )}
+        </div>
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700">
+            Password *
+          </label>
+          <input
+            type="text"
+            name="password"
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            className={`mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${
+              isEditing ? "bg-white" : "bg-gray-100"
+            }`}
+            readOnly={!isEditing}
+          />
+          {formik.errors.password && formik.touched.password && (
+            <p className="text-red-500">{formik.errors.password}</p>
           )}
         </div>
       </form>

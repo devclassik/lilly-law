@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 export function useUser() {
+
   const [userData, setUserDataState] = useState(() => {
     const storedData = getAllData("ud");
     return storedData || null;
@@ -23,6 +24,7 @@ export function useUser() {
     saveToLocalStorage("ud", data);
     setUserDataState(data);
   }
+
 
   return {
     getUserData,

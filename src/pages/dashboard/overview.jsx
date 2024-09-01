@@ -9,6 +9,8 @@ import { useUser } from "./hooks/useUser";
 import {
   RiUser2Fill,
   Ri24HoursLine,
+  RiTimerFlashLine,
+  RiExchangeFundsLine
 } from "react-icons/ri";
 import { AreaChart } from "../../components/areaChart";
 import { CalendarComponent } from "../../components/calendar/calendar";
@@ -70,11 +72,7 @@ export const Overview = () => {
   }, [
     token,
     refreshToken,
-    navigate,
-    logout,
-    baseURL,
-    saveToLocalStorage,
-    setUserData,
+
   ]);
 
   if (loading) {
@@ -99,8 +97,6 @@ export const Overview = () => {
     { name: "Jun", uv: 2390 },
     { name: "Jul", uv: 3490 },
   ];
-
-  console.log(getAllData('ar')?.access);
   
 
   return (
@@ -132,14 +128,14 @@ export const Overview = () => {
         <Panel
           title="Time "
           amount="38,085"
-          icon={<FaDollarSign color="red" />}
+          icon={<RiTimerFlashLine color="red" />}
           color="from-blue-500 to-blue-400"
         />
 
         <Panel
           title="Rate"
           amount="49.10%"
-          icon={<FaDollarSign color="green" />}
+          icon={<RiExchangeFundsLine color="green" />}
           // tailwindStyle="bg-gradient-to-r from-cyan-500 to-cyan-400"
         />
       </div>

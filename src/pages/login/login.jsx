@@ -74,7 +74,7 @@ export const Login = () => {
   return (
     <>
       <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <div className="bg-white shadow-lg max-w-4xl w-full rounded-lg flex">
+        <div className="bg-white shadow-lg max-w-4xl w-full rounded-lg flex mx-6">
           {/* Image Section */}
           <div className="w-1/2 hidden lg:block">
             <img

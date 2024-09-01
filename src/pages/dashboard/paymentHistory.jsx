@@ -79,14 +79,13 @@ const PaymentHistory = () => {
             </tr>
           </thead>
           <tbody>
-            {/* {paymentData.map((payment) => ( */}
-            {mockData?.map((payment) => (
+            {mockData.map((payment) => (
               <tr key={payment.id} className="hover:bg-gray-50">
-                <td className="px-4 py-2 border-b">{payment.date}</td>
-                <td className="px-4 py-2 border-b">{payment.amount}</td>
-                <td className="px-4 py-2 border-b">
+                <td className="px-4 py-2 border-b align-middle">{payment.date}</td>
+                <td className="px-4 py-2 border-b align-middle">{payment.amount}</td>
+                <td className="px-4 py-2 border-b align-middle">
                   <span
-                    className={`inline-block px-2 py-1 rounded text-white ${
+                    className={`inline-block w-32 px-3 py-1 rounded text-white text-center ${
                       payment.status === "Completed"
                         ? "bg-green-500"
                         : payment.status === "Pending"

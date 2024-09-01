@@ -5,9 +5,7 @@ import { showErrorToast } from "../../utils/toastUtils";
 import axios from "axios";
 import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
-import {
-  RiUser3Line,
-RiBankCard2Line} from "react-icons/ri";
+import { RiUser3Line, RiBankCard2Line } from "react-icons/ri";
 
 const Deposit = () => {
   const { token } = useAuth();
@@ -17,8 +15,6 @@ const Deposit = () => {
   const [paymentData, setPaymentData] = useState([]);
 
   const baseURL = process.env.REACT_APP_API_BASE_URL;
-
-  const userId = getAllData("ud")?.user_first_name;
 
   useEffect(() => {
     const makePayment = async () => {
@@ -53,15 +49,15 @@ const Deposit = () => {
       }
     };
 
-    if (userId) {
+    if (getAllData("ud")?.user_first_name && token) {
       makePayment();
     } else {
       setLoading(false);
     }
-  }, [userId, baseURL, token, navigate]);
+  }, [token]); // You can try adding getAllData("ud") as a dependency as well.
 
   if (loading) {
-    return <div>Loading...</div>; 
+    return <div>Loading...</div>;
   }
 
   return (
@@ -71,14 +67,13 @@ const Deposit = () => {
           getAllData("ud")?.user_last_name
         }`}
         amount="Deposit"
-        icon={<RiUser3Line  color="red"/>}
-
+        icon={<RiUser3Line color="red" />}
       />
       <Panel
         title="Agip Bank"
         subtitle="Onome Moses Tolu"
         amount="09876543"
-        icon={<RiBankCard2Line  color="red"/>}
+        icon={<RiBankCard2Line color="red" />}
       />
     </div>
   );
