@@ -9,7 +9,9 @@ import {
   RiHistoryFill,
   RiUser2Fill,
   RiUploadCloudFill,
-  RiExchangeDollarLine
+  RiExchangeDollarLine,
+  RiFolder6Fill,
+  RiGroupFill
 } from "react-icons/ri";
 import Logo from "../assets/jpg/logoMain.jpg";
 import { useAuth } from "../contexts/AuthContext";
@@ -31,10 +33,12 @@ export const Sidebar = () => {
     sendFund: <RiSendPlaneLine className="mr-3" />,
     settings: <RiSettings3Line className="mr-3" />,
     logout: <RiLogoutCircleLine className="mr-3" />,
+    client: <RiGroupFill className="mr-3" />,
+    office: <RiFolder6Fill className="mr-3" />,
   };
 
   return (
-    <div className="flex flex-col h-full p-4 bg-gray-800 text-white rounded-r-lg">
+    <div className="flex flex-col h-full p-4 bg-teal-500 text-white rounded-r-lg">
       <div className="flex items-center mb-6">
         <img src={Logo} alt="Logo" className="w-12 h-12" />
         <span className="text-2xl font-bold ml-4">Attorney Chamber</span>
@@ -45,7 +49,7 @@ export const Sidebar = () => {
             <Link
               to={navItem.path}
               className={`flex items-center py-2 px-4 rounded ${
-                isActive(navItem.path) ? "bg-gray-700 text-white" : "hover:bg-gray-700"
+                isActive(navItem.path) ? "bg-teal-700 text-white" : "hover:bg-gray-700"
               }`}
             >
               {icons[navItem.icon]}
@@ -57,7 +61,7 @@ export const Sidebar = () => {
       <div className="mt-auto">
         <button
           onClick={logout}
-          className="flex items-center py-2 px-4 rounded hover:bg-gray-700 w-full"
+          className="flex items-center py-2 px-4 rounded hover:bg-teal-700 w-full"
         >
           <RiLogoutCircleLine className="mr-3" />
           Logout

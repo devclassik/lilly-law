@@ -36,7 +36,7 @@ export const Login = () => {
           email: values.email,
           password: values.password,
         });
-
+        
         if (response.data.access_data) {
           showSuccessToast("Login successful");
           const { access, refresh } = response.data.access_data;
@@ -78,7 +78,7 @@ export const Login = () => {
           {/* Image Section */}
           <div className="w-1/2 hidden lg:block">
             <img
-              src={logoTwo} // Replace with your image URL
+              src={logoTwo}
               alt="Login"
               className="h-full object-cover rounded-l-lg"
             />
@@ -89,7 +89,7 @@ export const Login = () => {
             <h2 className="text-2xl font-bold text-center mb-4">
               Attorney Chamber
             </h2>
-            <h4 className="text-lg font-normal mb-6 text-center">Login</h4>
+            <h4 className="text-lg font-normal mb-6 text-center">Admin Login</h4>
             <form onSubmit={formik.handleSubmit}>
               {formik.errors.email && formik.touched.email && (
                 <p className="text-red-500 text-center mt-2">

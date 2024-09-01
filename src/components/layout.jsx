@@ -29,7 +29,7 @@ export const Layout = ({ children }) => {
       {isAuthenticated && !loading && (
         <>
           <div
-            className={`fixed top-0 left-0 h-full w-64 bg-gray-800 z-20 transform transition-transform duration-300 ${
+            className={`fixed top-0 left-0 h-full w-64 bg-teal-800 z-20 transform transition-transform duration-300 ${
               isSidebarOpen ? "translate-x-0" : "-translate-x-full"
             } md:translate-x-0`}
           >
@@ -54,7 +54,7 @@ export const Layout = ({ children }) => {
       {isAuthenticated && (
         <button
           onClick={toggleSidebar}
-          className="fixed top-2 right-2 md:hidden bg-primary text-gray-900 p-4 rounded-full shadow-lg z-30"
+          className="fixed top-2 right-2 md:hidden bg-primary text-teal-900 p-4 rounded-full shadow-lg z-30"
         >
           <span className="sr-only">Toggle Sidebar</span>
           <div className="w-6 h-6">
