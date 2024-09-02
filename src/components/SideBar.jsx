@@ -11,7 +11,9 @@ import {
   RiUploadCloudFill,
   RiExchangeDollarLine,
   RiFolder6Fill,
-  RiGroupFill
+  RiGroupFill,
+  RiEdit2Fill,
+  RiRefundFill
 } from "react-icons/ri";
 import Logo from "../assets/jpg/logoMain.jpg";
 import { useAuth } from "../contexts/AuthContext";
@@ -34,6 +36,8 @@ export const Sidebar = () => {
     settings: <RiSettings3Line className="mr-3" />,
     logout: <RiLogoutCircleLine className="mr-3" />,
     client: <RiGroupFill className="mr-3" />,
+    pencil: <RiEdit2Fill className="mr-3" />,
+    withdraw: <RiRefundFill className="mr-3" />,
     office: <RiFolder6Fill className="mr-3" />,
   };
 

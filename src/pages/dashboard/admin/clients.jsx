@@ -47,7 +47,7 @@ export const Clients = () => {
             },
           }
         );
-        setClientData(response.data.clients || mockClientData); // Update data key based on your API response
+        setClientData(response.data.all_user || mockClientData); // Update data key based on your API response        
       } catch (err) {
         console.error("Failed to fetch client data:", err);
         setError("Failed to fetch client data, session expired.");
@@ -80,6 +80,7 @@ export const Clients = () => {
           <thead className="bg-gray-100 text-gray-600">
             <tr>
               <th className="px-4 py-2 text-left">Name</th>
+              <th className="px-4 py-2 text-left">Phone</th>
               <th className="px-4 py-2 text-left">Email</th>
               <th className="px-4 py-2 text-left">Status</th>
             </tr>
@@ -87,14 +88,15 @@ export const Clients = () => {
           <tbody>
             {clientData.map((client) => (
               <tr key={client.id} className="hover:bg-gray-50">
-                <td className="px-4 py-2 border-b">{client.name}</td>
-                <td className="px-4 py-2 border-b">{client.email}</td>
+                <td className="px-4 py-2 border-b">{client.first_name} {client.last_name}</td>
+                <td className="px-4 py-2 border-b">{client.phone_number}</td>
+                <td className="px-4 py-2 border-b">{client.email }</td>
                 <td className="px-4 py-2 border-b">
                   <span
                     className={`inline-block px-2 py-1 rounded text-white w-24 text-center ${
-                      client.status === "Active"
+                      client.is_active === "true"
                         ? "bg-green-500"
-                        : client.status === "Inactive"
+                        : client.is_active === "false"
                         ? "bg-gray-500"
                         : "bg-yellow-500"
                     }`}

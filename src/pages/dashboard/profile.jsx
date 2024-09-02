@@ -64,6 +64,7 @@ export const Profile = () => {
         const response = await axios.post(
           `${baseURL}/update_client/`,
           {
+            id:userData?.id,
             email: values.email,
             first_name: values.first_name,
             last_name: values.last_name,

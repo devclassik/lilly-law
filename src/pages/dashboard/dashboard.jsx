@@ -26,6 +26,8 @@ export const Dashboard = () => {
 
           {/* admin route */}
           <Route path="client" element={<Clients />} />
+          <Route path="edit-client" element={<Profile />} />
+          <Route path="withdrawal-request" element={<Office />} />
           <Route path="site-setting" element={<Office />} />
           <Route path="office" element={<Office />} />
         </Routes>
