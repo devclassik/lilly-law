@@ -40,7 +40,6 @@ export const Login = () => {
         if (response.data.access_data) {
           showSuccessToast("Login successful");
           const { access, refresh } = response.data.access_data;
-          // console.log( response.data.access_data);
           saveToLocalStorage("up", {
             email: values.email,
             password: values.password,
@@ -78,7 +77,7 @@ export const Login = () => {
           {/* Image Section */}
           <div className="w-1/2 hidden lg:block">
             <img
-              src={logoTwo} // Replace with your image URL
+              src={logoTwo}
               alt="Login"
               className="h-full object-cover rounded-l-lg"
             />
@@ -137,6 +136,12 @@ export const Login = () => {
                   </p>
                 )}
               </div>
+              <p className="text-right text-gray-600 mb-4 -mt-4">
+              Forgot your password?{" "}
+              <a href="/forgot-password" className="text-blue-600">
+                Click here
+              </a>
+            </p>
               <button
                 type="submit"
                 className={`w-full py-2 rounded-lg flex items-center justify-center ${

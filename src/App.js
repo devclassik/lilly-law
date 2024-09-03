@@ -4,6 +4,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { Login } from "./pages/login/login";
 import { Signup } from "./pages/signup/signup";
+import  ForgotPassword from "./pages/forgotPassword/forgotPassword";
 import { Dashboard } from "./pages/dashboard/dashboard";
 import OtpVerification from "./pages/otp/otp";
 import { ToastContainer } from "react-toastify";
@@ -22,6 +23,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/otp" element={<OtpVerification />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route
               path="/dashboard/*"
               element={
