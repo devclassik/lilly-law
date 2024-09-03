@@ -9,6 +9,7 @@ import Deposit from "./deposit";
 import { Currency } from "./currency";
 import { Office } from "./office";
 import { Clients } from "./admin/clients";
+import { EditClient } from "./admin/editClient";
 
 export const Dashboard = () => {
   return (
@@ -26,7 +27,7 @@ export const Dashboard = () => {
 
           {/* admin route */}
           <Route path="client" element={<Clients />} />
-          <Route path="edit-client" element={<Profile />} />
+          <Route path="edit-client/:id" element={<EditClient />} />
           <Route path="withdrawal-request" element={<Office />} />
           <Route path="site-setting" element={<Office />} />
           <Route path="office" element={<Office />} />

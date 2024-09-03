@@ -39,26 +39,7 @@ export const Profile = () => {
       Office_address: userData?.office_address,
       password: userData?.user_password,
       user_currency: userData?.user_currency || "",
-      // password: userData?.user_currency || "",
     },
-    // validationSchema: Yup.object({
-    // //   email: Yup.string()
-    // //     .email("Invalid email address")
-    // //     .required("Email is required"),
-    // //   first_name: Yup.string().required("first name is required"),
-    // //   last_name: Yup.string().required("last name is required"),
-    // //   phone_number: Yup.string().required("Phone number is required"),
-    // //   date_of_birth: Yup.string().required("date of birth is required"),
-    // //   state_of_origin: Yup.string().required(
-    // //     "state of origin is required"
-    // //   ),
-    // //   office_address: Yup.string().required("address is required"),
-    // //   address: Yup.string().required("address is required"),
-    // //   user_currency: Yup.string().oneOf(
-    // //     ["USD", "EUR", "GBP", "NGN"],
-    // //     "Invalid currency"
-    // //   ),
-    // // }),
     onSubmit: async (values) => {
       try {
         const response = await axios.post(
