@@ -9,7 +9,8 @@ import {
   RiHistoryFill,
   RiUser2Fill,
   RiUploadCloudFill,
-  RiExchangeDollarLine
+  RiExchangeDollarLine,
+  RiLockPasswordFill
 } from "react-icons/ri";
 import Logo from "../assets/jpg/logoMain.jpg";
 import { useAuth } from "../contexts/AuthContext";
@@ -30,6 +31,7 @@ export const Sidebar = () => {
     upload: <RiUploadCloudFill className="mr-3" />,
     sendFund: <RiSendPlaneLine className="mr-3" />,
     settings: <RiSettings3Line className="mr-3" />,
+    password: <RiLockPasswordFill className="mr-3" />,
     logout: <RiLogoutCircleLine className="mr-3" />,
   };
 
