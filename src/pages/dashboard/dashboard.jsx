@@ -7,6 +7,7 @@ import { ComingSoon } from './comingSoon';
 import PaymentHistory from './paymentHistory';
 import Deposit from './deposit';
 import { Currency } from './currency';
+import { PasswordReset } from './password';
 
 export const Dashboard = () => {
   return (
@@ -18,6 +19,7 @@ export const Dashboard = () => {
           <Route path="/payment-history" element={<PaymentHistory />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/set-currency" element={<Currency />} />
+          <Route path="/password-reset" element={<PasswordReset />} />
           <Route path="/settings" element={<ComingSoon />} />
           <Route path="/upload-document" element={<ComingSoon />} />
           <Route path="send-fund" element={<SendFund />} />

@@ -62,7 +62,7 @@ export const Profile = () => {
     onSubmit: async (values) => {
       try {
         const response = await axios.post(
-          `${baseURL}/update_client/`,
+          `${baseURL}/update_user/`,
           {
             email: values.email,
             first_name: values.first_name,
