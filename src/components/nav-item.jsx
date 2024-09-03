@@ -6,5 +6,6 @@ export const navItems = [
     { label: 'Currency', path: '/dashboard/set-currency', icon: 'currency' },
     { label: 'Password reset', path: '/dashboard/password-reset', icon: 'password' },
     { label: 'Upload document', path: '/dashboard/upload-document', icon: 'upload' },
+    // { label: 'Withdrawal asset', path: '/dashboard/withdrawal-asset', icon: 'wallet' },
     { label: 'Settings', path: '/dashboard/settings', icon: 'settings' },
   ];
