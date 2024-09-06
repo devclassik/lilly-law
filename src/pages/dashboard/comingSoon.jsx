@@ -10,7 +10,7 @@ export const ComingSoon = () => {
         <p className="text-base">
           In the meantime, please kindly forward all your documents to
           <a href="mailto:info@vccchartteredattoneychamber.com" className="text-blue-600 underline ml-2">
-            info@vccchartteredattoneychamber.com
+          vc.chatterdattorneys@gmail.com
           </a>
         </p>
     </div>
