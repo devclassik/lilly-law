@@ -69,12 +69,28 @@ const Deposit = () => {
         amount="Deposit"
         icon={<RiUser3Line color="red" />}
       />
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 gap-6 mb-6 text-white">
       <Panel
-        title="Agip Bank"
-        subtitle="Onome Moses Tolu"
-        amount="09876543"
+        title="ACCESS BANK"
+        subtitleB="Dollar Account"
+        subtitle="VICTOR CHINWUBA CHATTERED ATTORNEYS"
+        amount="0806237741"
         icon={<RiBankCard2Line color="red" />}
       />
+      <Panel
+        title="ACCESS BANK PLC"
+        subtitle="VICTOR CHINWUBA CHATTERED ATTORNEYS"
+        subtitleB="Dollar Account"
+        amount="36145842"
+        icon={<RiBankCard2Line color="red" />}
+      />
+      {/* <Panel
+        title="ACCESS BANK PLC"
+        subtitle="VICTOR CHINWUBA CHATTERED ATTORNEYS"
+        amount="36145842"
+        icon={<RiBankCard2Line color="red" />}
+      /> */}
+      </div>
     </div>
   );
 };
